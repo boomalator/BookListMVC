@@ -39,20 +39,17 @@ namespace BookListMVC.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (!String.IsNullOrEmpty(ReturnUrl))
+                    if (!String.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
                     {
-                        return Redirect(ReturnUrl);
+                        return LocalRedirect(ReturnUrl);
                     }
                     else
                     {
                         return RedirectToAction("index", "home");
                     }
-
                 }
-
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
-
             return View(model);
         }
 
