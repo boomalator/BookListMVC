@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace BookListMVC
 {
@@ -34,6 +35,14 @@ namespace BookListMVC
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddPwnedPasswordValidator<IdentityUser>();  // https://github.com/andrewlock/PwnedPasswords
+
+            services.AddAuthentication()
+                .AddFacebook(Options =>
+                {
+                    Options.AppId = "737674263636665";
+                    Options.AppSecret = "251b55dd902fda64a2d5c34d36d6a0bf";
+                });
+
 
         }
 
