@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BookListMVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,7 @@ namespace BookListMVC.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Upsert(int? id)
         {
             Book = new Book();
@@ -43,6 +45,7 @@ namespace BookListMVC.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Upsert()
         {
             if (ModelState.IsValid)
