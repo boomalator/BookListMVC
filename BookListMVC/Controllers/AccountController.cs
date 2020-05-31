@@ -27,19 +27,27 @@ namespace BookListMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(ViewModels.LoginViewModel model)
+        public async Task<IActionResult> Login(ViewModels.LoginViewModel model, string ReturnUrl)
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync( 
-                    userName:model.Email, 
-                    password:model.Password, 
-                    isPersistent:model.RememberMe,
+                var result = await signInManager.PasswordSignInAsync(
+                    userName: model.Email,
+                    password: model.Password,
+                    isPersistent: model.RememberMe,
                     lockoutOnFailure: false);
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("index", "home");
+                    if (!String.IsNullOrEmpty(ReturnUrl))
+                    {
+                        return Redirect(ReturnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("index", "home");
+                    }
+
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
