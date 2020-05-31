@@ -10,6 +10,7 @@ namespace BookListMVC.ViewModels
     {
         [Required]
         [EmailAddress]
+        [Microsoft.AspNetCore.Mvc.Remote(action: "IsEmailInUse", controller: "Account")]
         public string Email { get; set; }
 
         [Required]

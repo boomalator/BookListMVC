@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,13 +19,14 @@ namespace BookListMVC.Controllers
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-        }
+        } // End constructor
 
+        #region Login
         [HttpGet]
         public IActionResult Login()
         {
             return View();
-        }
+        } // End Login Get
 
         [HttpPost]
         public async Task<IActionResult> Login(ViewModels.LoginViewModel model, string ReturnUrl)
@@ -51,21 +53,25 @@ namespace BookListMVC.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
             return View(model);
-        }
+        } // End Login Post
 
+        #endregion
 
+        #region Logout
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-            return RedirectToAction("Index","Home");
-        }
+            return RedirectToAction("Index", "Home");
+        } // End Logout Post
+        #endregion
 
+        #region Register
         [HttpGet]
         public IActionResult Register()
         {
             return View();
-        }
+        } // End register get
 
         [HttpPost]
         public async Task<IActionResult> Register(ViewModels.RegisterViewModel model)
@@ -97,8 +103,27 @@ namespace BookListMVC.Controllers
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-
             return View(model);
+        } // end register post
+
+        #endregion
+
+        #region API Calls
+        [AcceptVerbs("Get", "Post")]
+        [AllowAnonymous]
+        public async Task<IActionResult> IsEmailInUse(string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"Email {email} is already in use.");
+            }
         }
+        #endregion
     }
 }
