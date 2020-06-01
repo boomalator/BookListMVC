@@ -62,18 +62,15 @@ namespace BookListMVC.Controllers
                 }
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
-            else
+           
+            if (model.ExternalLogins == null)
             {
-                if (model.ExternalLogins == null)
-                {
-                    model.ExternalLogins =
-                    (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-                }
-                if (String.IsNullOrEmpty(model.ReturnUrl) && (!String.IsNullOrEmpty(ReturnUrl)))
-                {
-                    model.ReturnUrl = ReturnUrl;
-                }
-
+                model.ExternalLogins =
+                (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            }
+            if (String.IsNullOrEmpty(model.ReturnUrl) && (!String.IsNullOrEmpty(ReturnUrl)))
+            {
+                model.ReturnUrl = ReturnUrl;
             }
             return View(model);
         } // End Login Post

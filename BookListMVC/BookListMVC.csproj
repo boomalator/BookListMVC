@@ -2,11 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>f0ffff64-63d8-4340-b51d-75b8c3b27a1a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Migrations\20200525041136_CreateBookDatabaseMVC.cs" />
     <Compile Remove="Migrations\20200525041136_CreateBookDatabaseMVC.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="appSecrets.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="appSecrets.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

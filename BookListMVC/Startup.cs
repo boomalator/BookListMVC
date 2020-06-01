@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using System.Diagnostics;
 
 namespace BookListMVC
 {
@@ -39,11 +40,9 @@ namespace BookListMVC
             services.AddAuthentication()
                 .AddFacebook(Options =>
                 {
-                    Options.AppId = "737674263636665";
-                    Options.AppSecret = "251b55dd902fda64a2d5c34d36d6a0bf";
+                    Options.AppId = Configuration["Facebook:AppId"];
+                    Options.AppSecret = Configuration["Facebook:AppSecret"];
                 });
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
